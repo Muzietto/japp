@@ -2,6 +2,8 @@
   'use strict';
   
   define([], function() {
+    var makePromise, fulfill, depend
+    ;
     
     // promise() -> promise
     // constructs a representation of a value.
@@ -14,7 +16,7 @@
     // to be computed
 
 
-    // depend(promise, expression) -> promise
+    // depend(expression, promise) -> promise
     // defines a dependency between the expression 
     // and the value of the promise. 
     // It returns a new promise for the result 
@@ -23,7 +25,9 @@
     
     
     return {
-      pippo: 'stringa pippo'
+      promise: makePromise,
+      fulfill: fulfill,
+      depend: depend
     };
   });
   

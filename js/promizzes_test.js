@@ -6,7 +6,7 @@
 
     describe('a promises system', function() {
       it('builds a simple chain', function(done) {
-        
+
         var side = promise();
         var makeArea = function(sideVal) {
           var result = promise();
@@ -15,7 +15,7 @@
         }
         var printStuff = function(stuffVal) {
           var result = promise();
-          fulfill(result, console.log.bind(stuffVal));
+          fulfill(result, console.log(stuffVal));
           return result;
         }
         var beDone = function(_) {
@@ -23,11 +23,12 @@
           fulfill(result, done());
           return result;
         }
-        
+
+        // depend(expression, promise)
         depend(makeArea, side);
         depend(printStuff, makeArea);
         depend(beDone, printStuff);
-        
+
         fulfill(side, 5);
       });
     });
