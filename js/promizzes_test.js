@@ -8,19 +8,19 @@
       it('builds a simple chain', function(done) {
         
         var side = promise();
-        var makeArea = function(side) {
+        var makeArea = function(sideVal) {
           var result = promise();
-          fulfill(result, side^2);
+          fulfill(result, sideVal^2);
           return result;
         }
-        var printStuff = function(stuff) {
+        var printStuff = function(stuffVal) {
           var result = promise();
-          fulfill(result, console.log.bind(stuff));
+          fulfill(result, console.log.bind(stuffVal));
           return result;
         }
-        var beDone = function(work) {
+        var beDone = function(_) {
           var result = promise();
-          fulfill(result, done);
+          fulfill(result, done());
           return result;
         }
         
