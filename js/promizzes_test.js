@@ -28,6 +28,11 @@
         depend(makeArea, side);
         depend(printStuff, makeArea);
         depend(beDone, printStuff);
+        
+        // side
+        //  .then(makeArea)
+        //  .then(printStuff)
+        //  .then(beDone);
 
         fulfill(side, 5);
       });
