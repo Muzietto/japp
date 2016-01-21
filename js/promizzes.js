@@ -28,7 +28,7 @@
     // fulfill(promise, value) -> ()
     // puts a value in the promise, allowing the
     // expressions that depend on the value 
-    // to be computed
+    // to be computed.
     function fulfill(promise, value) {
       promise.value(value);
     }
