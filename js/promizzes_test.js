@@ -13,7 +13,7 @@
         var sidePromise = promise();
         var makeArea = function(sideVal) {
           var result = promise();
-          fulfill(result, sideVal^2);
+          fulfill(result, sideVal * sideVal);
           return result;
         }
         var printStuff = function(stuffVal) {
