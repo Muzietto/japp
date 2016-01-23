@@ -9,9 +9,11 @@
     function makePromise() {
       var _resolved = false;
       var _value = undefined;
+      var _continuations = [];
       
       return {
-        value: value
+        value: value,
+        whenResolved: whenResolved
         // put stuff here
       };
       
@@ -22,9 +24,16 @@
         if (!_resolved) {
           _value = val;
           _resolved = true;
+          _continuations.forEach(function(cont) {
+            cont(val);
+          });
           return;
         }
         throw new Error('already resolved');
+      }
+      
+      function whenResolved(cont) {
+        _continuations.push(cont);
       }
     }
 
@@ -43,12 +52,11 @@
     // of the expression, so new expressions 
     // can depend on that value.
     function depend(promise, expression) {
-      var promiseValue = promise.value();
-      if (typeof promiseValue !== 'undefined') {
-        return expression(promiseValue);
-      }
-      //debugger;
-      setTimeout(depend.bind(null, promise, expression), 10);
+      var resultPromise = makePromise();
+      promise.whenResolved(function(resolvedValue) {
+        fulfill(resultPromise, expression(resolvedValue));
+      });
+      return resultPromise;
     }
     
     return {
