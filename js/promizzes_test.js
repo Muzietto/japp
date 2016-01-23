@@ -3,11 +3,14 @@
   
   define(['promizzes', 'chai'], function(promizzes, chai) {
     var expect = chai.expect;
+    var promise =  promizzes.promise;
+    var fulfill =  promizzes.fulfill;
+    var depend =   promizzes.depend;
 
     describe('a promises system', function() {
       it('builds a simple chain', function(done) {
 
-        var side = promise();
+        var sidePromise = promise();
         var makeArea = function(sideVal) {
           var result = promise();
           fulfill(result, sideVal^2);
@@ -24,17 +27,17 @@
           return result;
         }
 
-        // depend(expression, promise)
-        depend(makeArea, side);
-        depend(printStuff, makeArea);
-        depend(beDone, printStuff);
+        // depend(promise, expression) // famb
+        var areaPromise = depend(sidePromise, makeArea);
+        var printPromise = depend(areaPromise, printStuff);
+        var donePromise = depend(printPromise, beDone);
         
         // side
         //  .then(makeArea)
         //  .then(printStuff)
         //  .then(beDone);
 
-        fulfill(side, 5);
+        fulfill(sidePromise, 5);
       });
     });
   });

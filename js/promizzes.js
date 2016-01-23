@@ -16,6 +16,9 @@
       };
       
       function value(val) {
+        if (typeof val === 'undefined') {
+          return _value;
+        }
         if (!_resolved) {
           _value = val;
           _resolved = true;
@@ -33,14 +36,19 @@
       promise.value(value);
     }
 
-    // depend(expression, promise) -> promise
+    // depend(promise, expression) -> promise
     // defines a dependency between the expression 
     // and the value of the promise. 
     // It returns a new promise for the result 
     // of the expression, so new expressions 
     // can depend on that value.
-    function depend(expression, promise) {
-      
+    function depend(promise, expression) {
+      var promiseValue = promise.value();
+      if (typeof promiseValue !== 'undefined') {
+        return expression(promiseValue);
+      }
+      //debugger;
+      setTimeout(depend.bind(null, promise, expression), 10);
     }
     
     return {
