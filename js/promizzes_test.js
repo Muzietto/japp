@@ -19,7 +19,7 @@
         var printStuff = function(stuffVal) {
           var result = promise();
           expect(stuffVal).to.be.equal(25);
-          fulfill(result, console.log(stuffVal));
+          fulfill(result, console.log('promizzes test: ' + stuffVal));
           return result;
         }
         var beDone = function(_) {
