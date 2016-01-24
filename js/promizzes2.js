@@ -48,7 +48,8 @@
       }
       // TODO - try-catch all this and handle errors
       promise.value = value;
-      promise.dependencies.forEach(function(continuation) {
+      var dependencies = promise.dependencies;
+      dependencies.forEach(function(continuation) {
         continuation(value);
       });
       promise.dependencies = [];

@@ -23,7 +23,8 @@
         if (!_resolved) {
           _value = val;
           _resolved = true;
-          _continuations.forEach(function(cont) {
+          var continuations = _continuations;
+          continuations.forEach(function(cont) {
             cont(val);
           });
           _continuations = [];
