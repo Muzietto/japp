@@ -51,6 +51,7 @@
       promise.dependencies.forEach(function(continuation) {
         continuation(value);
       });
+      promise.dependencies = [];
       promise.resolved = true;
     }
   });
