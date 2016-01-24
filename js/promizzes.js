@@ -7,8 +7,8 @@
     // constructs a representation of a value.
     // The value must be provided at later point in time.
     function makePromise() {
-      var _resolved = false;
       var _value = undefined;
+      var _resolved = false;
       var _continuations = [];
       
       return {
