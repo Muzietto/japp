@@ -30,9 +30,9 @@
         return fapb(promise.value);
       }
       var result = makePromise();
-      promise.dependencies.push(function(value) {
-        depend(fapb(promise.value), function(value_2) {
-          fulfill(result, value_2);
+      promise.dependencies.push(function(_) {
+        depend(fapb(promise.value), function(value) {
+          fulfill(result, value);
         });
       });
       return result;
