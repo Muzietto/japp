@@ -14,7 +14,6 @@
       return {
         value: value,
         whenResolved: whenResolved
-        // put stuff here
       };
       
       function value(val) {
@@ -27,11 +26,12 @@
           _continuations.forEach(function(cont) {
             cont(val);
           });
+          _continuations = [];
           return;
         }
         throw new Error('already resolved');
       }
-      
+
       function whenResolved(cont) {
         _continuations.push(cont);
       }
@@ -52,6 +52,9 @@
     // of the expression, so new expressions 
     // can depend on that value.
     function depend(promise, expression) {
+      if (typeof promise.value() !== 'undefined') { // promise is already resolved
+        return expression(promise.value());
+      }
       var resultPromise = makePromise();
       promise.whenResolved(function(resolvedValue) {
         // optional flatten -> UGLY!!!!!
@@ -60,7 +63,7 @@
       });
       return resultPromise;
     }
-    
+
     return {
       promise: makePromise,
       fulfill: fulfill,

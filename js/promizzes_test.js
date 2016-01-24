@@ -31,7 +31,6 @@
         // depend(promise, expression) // famb
         var areaPromise = depend(sidePromise, makeArea);
         var printPromise = depend(areaPromise, printStuff);
-        var donePromise = depend(printPromise, beDone);
 
         // side
         //  .then(makeArea)
@@ -39,6 +38,7 @@
         //  .then(beDone);
 
         fulfill(sidePromise, 5);
+        var donePromise = depend(printPromise, beDone);
       });
     });
   });
