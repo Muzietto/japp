@@ -5,4 +5,4 @@
 Just Another Promises Playground.
 
 - promizzes.js: first naive attempt; promise contains logic to handle value and dependencies
-- promizzes2.js: all logic is outside promises and is handled by `depend` & `fulfill`
+- promizzes2.js: all logic is outside promises and is handled by static methods `depend` & `fulfill`
