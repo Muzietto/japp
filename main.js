@@ -5,18 +5,17 @@
     paths: {
       'promizzes': 'js/promizzes',
       'promizzes2': 'js/promizzes2',
+      'promizzes2b': 'js/promizzes2b',
       'promizzes3': 'js/promizzes3',
       'test': 'js/promizzes_test',
       'test2': 'js/promizzes_test2',
+      'test2b': 'js/promizzes_test2b',
       'test3': 'js/promizzes_test3',
       'mocha': 'mocha/mocha',
       'chai': 'mocha/chai',
       'utils': 'mocha/utils'
     },
     shim: {
-      promizzes: { deps: ['utils'] },
-      promizzes2: { deps: ['utils'] },
-      promizzes3: { deps: ['utils'] },
       mocha: {
         init: function() {
           this.mocha.setup('bdd');
@@ -26,7 +25,7 @@
     }
   });
   define(['mocha'], function(mocha) {
-    require(['test', 'test2', 'test3'], function() {
+    require(['test', 'test2', 'test2b', 'test3'], function() {
       var runner = mocha.run();
     });
   })
