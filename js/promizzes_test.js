@@ -7,7 +7,7 @@
     var fulfill = promizzes.fulfill;
     var depend  = promizzes.depend;
 
-    describe('a promises system', function() {
+    describe('a naive, intuitive promises system', function() {
       it('builds a simple chain', function(done) {
 
         var sidePromise = promise();
