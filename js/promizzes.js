@@ -54,6 +54,8 @@
     function depend(promise, expression) {
       var resultPromise = makePromise();
       promise.whenResolved(function(resolvedValue) {
+        // optional flatten -> UGLY!!!!!
+        resolvedValue = (resolvedValue.value) ? resolvedValue.value() : resolvedValue;
         fulfill(resultPromise, expression(resolvedValue));
       });
       return resultPromise;
