@@ -1,11 +1,11 @@
 (function() {
   'use strict';
-  
+
   define(['promizzes', 'chai'], function(promizzes, chai) {
-    var expect = chai.expect;
-    var promise =  promizzes.promise;
-    var fulfill =  promizzes.fulfill;
-    var depend =   promizzes.depend;
+    var expect  = chai.expect;
+    var promise = promizzes.promise;
+    var fulfill = promizzes.fulfill;
+    var depend  = promizzes.depend;
 
     describe('a promises system', function() {
       it('builds a simple chain', function(done) {
@@ -31,7 +31,7 @@
         var areaPromise = depend(sidePromise, makeArea);
         var printPromise = depend(areaPromise, printStuff);
         var donePromise = depend(printPromise, beDone);
-        
+
         // side
         //  .then(makeArea)
         //  .then(printStuff)
@@ -41,5 +41,4 @@
       });
     });
   });
-  
 })();
