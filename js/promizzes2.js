@@ -1,13 +1,13 @@
 (function() {
   'user strict';
-  
+
   define([], function() {
     return {
       promise: makePromise,
       fulfill: fulfill,
       depend: depend
     };
-    
+
     function makePromise() {
       return {
         resolved: false,
