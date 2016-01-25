@@ -38,7 +38,7 @@
         return function(actual) {
           var result = promise();
           expect(actual).to.be.eql(expected);
-          console.log('promizzes2 test: ' + actual);
+          console.log('promizzes2 test: ' + ((typeof actual === 'string') ? actual : JSON.stringify(actual)));
           fulfill(result, actual);
           return result;
         };

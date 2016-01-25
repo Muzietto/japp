@@ -36,7 +36,7 @@
       function expected(expected) {
         return function(actual) {
           expect(actual).to.be.eql(expected);
-          console.log('promizzes3 test: ' + actual);
+          console.log('promizzes3 test: ' + ((typeof actual === 'string') ? actual : JSON.stringify(actual)));
           return promise().resolve(actual);
         };
       }
