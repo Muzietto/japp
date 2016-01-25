@@ -25,7 +25,9 @@
     
     function request() {
       var result = promise();
-      return depend(result, ajax);
+      return depend(result, function(url) {
+        return ajax(url);
+      });
     }
 
     function ajax_i(url) { // instance-based version
