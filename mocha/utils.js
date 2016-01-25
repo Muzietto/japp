@@ -23,15 +23,9 @@
       xhttp.send();
       return data;
     }
-    
-    function request() {
-      var result = promise();
-      depend(result, function(url) {
-        var result2 = promise();
-        return depend(result2, ajax(url));
-      });
-      return result;
-    }
+
+    // There is NO WAY to create a promise that resolves first to the URL that ajax must call
+    // and after that returns the server data...
 
     function ajax_i(url) { // instance-based version
       var data = promise_i();
@@ -47,15 +41,9 @@
       return data;
     }
     
-    function request_i() { // instance-based version
-      return promise_i().then(ajax_i);
-    }
-    
     return {
       ajax: ajax,
-      request: request,
-      ajax_i: ajax_i,
-      request_i: request_i
+      ajax_i: ajax_i
     };
   });
 })();

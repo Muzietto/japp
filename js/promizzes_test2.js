@@ -7,7 +7,6 @@
     var fulfill = promizzes.fulfill;
     var depend  = promizzes.depend;
     var ajax = utils.ajax;
-    var request = utils.request;
 
     describe('a promises system with every logic inside static methods', function() {
 
@@ -25,13 +24,6 @@
         });
         var expectation2 = depend(data2, expected({"name":"Milano","population":1500000}));
         depend(expectation2, execute(done));
-      });
-
-      it('does ajax when url is resolved', function(done) {
-        var req = request();
-        var expectation = depend(req, expected('{"name":"Marco","age":53,"town":"milano"}'));
-        depend(expectation, execute(done));
-        fulfill(req, 'http://localhost:8080/json/user.json');
       });
 
       function expected(expected) {

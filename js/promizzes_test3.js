@@ -5,7 +5,6 @@
     var expect  = chai.expect;
     var promise = promizzes.promise;
     var ajax = utils.ajax_i;
-    var request = utils.request_i;
 
     describe('a promises system based on instance methods', function() {
 
@@ -23,14 +22,6 @@
           })
           .then(expected({"name":"Milano","population":1500000}))
           .then(execute(done));
-      });
-
-      xit('does ajax when url is resolved', function(done) {
-        var req = request()
-                    .then(expected('http://localhost:8080/json/user.json'))
-                    .then(expected('{"name":"Marco","age":53,"town":"milano"}'));
-        depend(expectation2, execute(done));
-        fulfill(req, 'http://localhost:8080/json/user.json');
       });
 
       function expected(expected) {

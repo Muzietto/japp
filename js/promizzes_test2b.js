@@ -7,7 +7,6 @@
     var fulfill = promizzes.fulfill;
     var depend  = promizzes.depend;
     var ajax = utils.ajax;
-    var request = utils.request;
 
     describe('a promises system identical to what Quildreen did', function() {
 
@@ -24,14 +23,6 @@
         });
         var expectation2 = depend(expectation1, expected({"name":"Milano","population":1500000}));
         depend(expectation2, execute(done));
-      });
-
-      xit('does ajax when url is resolved', function(done) {
-        var req = request();
-        var data = depend(req, expected('http://localhost:8080/json/user.json'));
-        var expectation2 = depend(data, expected('{"name":"Marco","age":53,"town":"milano"}'));
-        depend(expectation2, execute(done));
-        fulfill(req, 'http://localhost:8080/json/user.json');
       });
 
       function expected(expected) {
