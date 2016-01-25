@@ -17,6 +17,8 @@
     }
 
     // depend(promise, expression) -> promise
+    // FULL ROBOTLOLITA VERSION
+    // http://robotlolita.me/2015/11/15/how-do-promises-work.html#a-minimal-promise-implementation
     // defines a dependency between the expression 
     // and the value of the promise. 
     // It returns a new promise for the result 
@@ -26,7 +28,7 @@
     // (promise a, fapb) -> promise b
     function depend(promise, fapb) { // fapb :: a -> promise b
       var result = makePromise();
-      // promise is most certainly unresolved, but let's guard...
+      // next guard is different from mine...
       if (promise.resolved) {
         depend(fapb(promise.value), function (value) {
           fulfill(result, value);
