@@ -12,6 +12,7 @@
 
     function ajax(url) {
       var data = promise();
+      console.log('ajax call to ' + url);
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -32,6 +33,7 @@
 
     function ajax_i(url) { // instance-based version
       var data = promise_i();
+      console.log('ajax_i call to ' + url);
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
