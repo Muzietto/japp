@@ -1,5 +1,5 @@
 (function(){
-  'user strict';
+  'use strict';
   
   define([], function() {
     
@@ -30,6 +30,7 @@
           _dependencies.push(function(_) {
             fapb(_value).then(function(value) {
               result.resolve(value);
+              return makePromise() // forget me not, you idiot...
             });
           });
           return result;
