@@ -25,7 +25,7 @@
           .then(execute(done));
       });
 
-      xit('does ajax when resolved', function(done) {
+      xit('does ajax when url is resolved', function(done) {
         var req = request()
                     .then(expected('http://localhost:8080/json/user.json'))
                     .then(expected('{"name":"Marco","age":53,"town":"milano"}'));

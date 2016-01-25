@@ -26,7 +26,7 @@
         depend(expectation2, execute(done));
       });
 
-      it('does ajax when resolved', function(done) {
+      xit('does ajax when url is resolved', function(done) {
         var req = request();
         var data = depend(req, expected('http://localhost:8080/json/user.json'));
         var expectation2 = depend(data, expected('{"name":"Marco","age":53,"town":"milano"}'));
