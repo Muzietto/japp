@@ -1,13 +1,13 @@
 (function(){
   'use strict';
-  
+
   define([], function() {
-    
+
     function makePromise() {
       var _resolved = false;
       var _value = undefined;
       var _dependencies = []; // [a -> promise b]
-      
+
       return {
         resolve: function(value) {
           if (_resolved) {
@@ -37,7 +37,7 @@
         }
       };
     }
-    
+
     return {
       promise: makePromise
     };
