@@ -9,7 +9,7 @@
     var ajax = utils.ajax;
     var request = utils.request;
 
-    describe('a promises system with every logic inside static methods', function() {
+    describe('a promises system with every logic inside staticx methods', function() {
 
       it('does ajax straight away', function(done) {
         var data = ajax('http://localhost:8080/json/user.json');
@@ -28,7 +28,7 @@
         depend(expectation2, execute(done));
       });
 
-      it('does ajax when resolved', function(done) {
+      xit('does ajax when resolved', function(done) {
         var req = request();
         var data = depend(req, expected('http://localhost:8080/json/user.json'));
         var expectation2 = depend(data, expected('{"name":"Marco","age":53,"town":"milano"}'));
