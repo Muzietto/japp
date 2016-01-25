@@ -9,7 +9,7 @@
     var ajax = utils.ajax;
     var request = utils.request;
 
-    describe('a promises system with every logic inside staticx methods', function() {
+    describe('a promises system with every logic inside static methods', function() {
 
       it('does ajax straight away', function(done) {
         var data = ajax('http://localhost:8080/json/user.json');
@@ -17,18 +17,16 @@
         depend(expectation, execute(done));
       });
 
-      xit('does chained ajax', function(done) {
-        var data = ajax('http://localhost:8080/json/user.json');
-        var expectation1 = depend(data, function(_) {
-          return ajax('http://localhost:8080/json/' + data.value.town + '.json');
+      it('does chained ajax', function(done) {
+        var data1 = ajax('http://localhost:8080/json/user.json');
+        var data2 = depend(data1, function(_) {
+          return ajax('http://localhost:8080/json/' + data1.value.town + '.json');
         });
-        var expectation2 = depend(expectation1, expected({"name":"Milano","population":1500000}));
-      
-        
-        depend(expectation2, execute(done));
+        var validation = depend(data2, expected({"name":"Milano","population":1500000}));
+        depend(validation, execute(done));
       });
 
-      xit('does ajax when resolved', function(done) {
+      it('does ajax when resolved', function(done) {
         var req = request();
         var data = depend(req, expected('http://localhost:8080/json/user.json'));
         var expectation2 = depend(data, expected('{"name":"Marco","age":53,"town":"milano"}'));
@@ -42,9 +40,6 @@
           expect(actual).to.be.eql(expected);
           console.log('promizzes2 test: ' + actual);
           fulfill(result, actual);
-          //depend(result, function(_) {
-            
-          //});
           return result;
         };
       }
