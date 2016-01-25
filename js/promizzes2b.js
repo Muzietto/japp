@@ -25,14 +25,19 @@
 
     // (promise a, fapb) -> promise b
     function depend(promise, fapb) { // fapb :: a -> promise b
+      var result = makePromise();
       // promise is most certainly unresolved, but let's guard...
       if (promise.resolved) {
-        return fapb(promise.value);
+        depend(fapb(promise.value), function (value) {
+          fulfill(result, value);
+          return makePromise();
+        });
+        return result;
       }
-      var result = makePromise();
       promise.dependencies.push(function (_) {
         depend(fapb(promise.value), function (value) {
           fulfill(result, value);
+          return makePromise();
         });
       });
       return result;

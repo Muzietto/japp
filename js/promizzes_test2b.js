@@ -17,7 +17,7 @@
         depend(expectation, execute(done));
       });
 
-      xit('does chained ajax', function(done) {
+      it('does chained ajax', function(done) {
         var data = ajax('http://localhost:8080/json/user.json');
         var expectation1 = depend(data, function(_) {
           return ajax('http://localhost:8080/json/' + data.value.town + '.json');
