@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  define(['promizzes2', 'chai', 'utils'], function(promizzes, chai, utils) {
+  define(['promizzes2b', 'chai', 'utils'], function(promizzes, chai, utils) {
     var expect  = chai.expect;
     var promise = promizzes.promise;
     var fulfill = promizzes.fulfill;
@@ -23,8 +23,6 @@
           return ajax('http://localhost:8080/json/' + data.value.town + '.json');
         });
         var expectation2 = depend(expectation1, expected({"name":"Milano","population":1500000}));
-      
-        
         depend(expectation2, execute(done));
       });
 
@@ -42,13 +40,10 @@
           expect(actual).to.be.eql(expected);
           console.log('promizzes2 test: ' + actual);
           fulfill(result, actual);
-          //depend(result, function(_) {
-            
-          //});
           return result;
         };
       }
-      
+
       function execute(cb) {
         return function executor(_) {
           var result = promise();
