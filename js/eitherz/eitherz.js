@@ -10,9 +10,9 @@
 
     function makePromise() {
       return {
-        resolved: false,
+        state: 'pending',
         value: undefined,
-        dependencies: []
+        dependencies: [] // [{onResolved,onFailed}]
       };
     }
 
@@ -39,12 +39,12 @@
       return result;
     }
 
-    // fulfill(promise, value) -> ()
+    // resolve(promise, value) -> ()
     // puts a value in the promise, allowing the
     // expressions that depend on the value 
     // to be computed.
-    function fulfill(promise, value) {
-      if (promise.resolved) {
+    function resolve(promise, value) {
+      if (promise.status !== 'pending') {
         throw new Error('already resolved!');
       }
       // TODO - try-catch all this and handle errors
