@@ -4,15 +4,16 @@
   define([], function() {
     return {
       promise: makePromise,
-      fulfill: fulfill,
+      resolve: resolve,
+      reject: reject,
       depend: depend
     };
 
     function makePromise() {
       return {
         state: 'pending',
-        value: undefined,
-        dependencies: [] // [{onResolved,onFailed}]
+        value: undefined, // value || error
+        dependencies: [] // [{onResolved,onRejected}]
       };
     }
 
@@ -24,17 +25,29 @@
     // can depend on that value.
 
     // (promise a, fapb) -> promise b
-    function depend(promise, fapb) { // fapb :: a -> promise b
+    function depend(promise, fapbs) { // fapbs :: (a -> promise b, a -> error)
+      if (typeof fapbs === 'function') {
+        fapbs = {
+          onResolved: fapbs,
+          onRejected: onRejectedFapb
+        };
+      }
       // promise is most certainly unresolved, but let's guard...
-      if (promise.resolved) {
-        return fapb(promise.value);
+      if (promise.state === 'resolved') {
+        return fapbs.onResolved(promise.value);
+      }
+      if (promise.state === 'rejected') {
+        return fapbs.onRejected(promise.value);
       }
       var result = makePromise();
-      promise.dependencies.push(function (_) {
-        depend(fapb(promise.value), function (value) {
-          fulfill(result, value);
-          return makePromise(); // forget me not, you idiot...
-        });
+      promise.dependencies.push({
+        onResolved: function (_) {
+          depend(fapbs.onResolved(promise.value), function (value) {
+            resolve(result, value);
+            return makePromise(); // forget me not, you idiot...
+          });
+        },
+        onRejected: onRejectedFapb
       });
       return result;
     }
@@ -44,17 +57,32 @@
     // expressions that depend on the value 
     // to be computed.
     function resolve(promise, value) {
-      if (promise.status !== 'pending') {
+      if (promise.state !== 'pending') {
         throw new Error('already resolved!');
       }
-      // TODO - try-catch all this and handle errors
       promise.value = value;
       var dependencies = promise.dependencies;
       dependencies.forEach(function(continuation) {
-        continuation(value);
+        continuation.onResolved(value);
       });
       promise.dependencies = [];
-      promise.resolved = true;
+      promise.state = 'resolved';
+    }
+
+    // reject(promise, error) -> ()
+    function reject(promise, error) {
+      promise.value = error;
+      dependencies.forEach(function(continuation) {
+        continuation.onRejected(value);
+      });
+      promise.dependencies = [];
+      promise.state = 'rejected';
+    }
+    
+    function onRejectedFapb(error) {
+      var result = promise();
+      reject(result, error);
+      return result;
     }
   });
 })();

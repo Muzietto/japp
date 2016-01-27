@@ -4,7 +4,8 @@
   define(['eitherz', 'chai'], function(promizzes, chai) {
     var expect  = chai.expect;
     var promise = promizzes.promise;
-    var fulfill = promizzes.fulfill;
+    var resolve = promizzes.resolve;
+    var reject = promizzes.reject;
     var depend  = promizzes.depend;
 
     describe('a promises system with error handling and all methods static', function() {
@@ -12,22 +13,26 @@
       it('makes a good division', function(done) {
         var divisorPromise = promise();        
         var division = depend(divisorPromise, divisionOf24);
-        var validation = depend(division, 12);
+        var validation = depend(division, expected(12));
         resolve(divisorPromise, 2);
         var useless = depend(validation, execute(done));
       });
 
-      it('fails on an impossible division', function(done) {
+      xit('fails on an impossible division', function(done) {
         var divisorPromise = promise();        
         var division = depend(divisorPromise, divisionOf24);
         //var validation = depend(division, 12); // HOW DOES THIS ONE BECOME?
-        resolve(divisorPromise, 0);
+        resolve(divisorPromise, expected(0));
         var useless = depend(validation, execute(done));
       });
 
       function divisionOf24(divisor) {
         var result = promise();
+        try {
         resolve(result, 24/divisor);
+        } catch (exc) {
+          reject(result, exc.message);
+        }
         return result;
       }
 
@@ -35,7 +40,7 @@
         return function(actual) {
           expect(actual).to.be.eql(expected);
           var result = promise();
-          fulfill(result, actual);
+          resolve(result, actual);
           return result;
         }
       }
@@ -44,7 +49,7 @@
         return function(_) {
           console.log('test complete with result XXX');
           var result = promise();
-          fulfill(result, cb());
+          resolve(result, cb());
           return result;
         }
       }
@@ -60,20 +65,20 @@
         var printStuff = function(stuffVal) {
           var result = promise();
           expect(stuffVal).to.be.equal(25);
-          fulfill(result, console.log('promizzes2 test: ' + stuffVal));
+          resolve(result, console.log('promizzes2 test: ' + stuffVal));
           return result;
         }
         var beDone = function(_) {
           var result = promise();
-          fulfill(result, done());
+          resolve(result, done());
           return result;
         }
 
         // depend(promise, fapb_ok, fabp_ko) // fapb :: a -> promise b
-        var areaPromise = depend(sidePromise, makeArea/*, fail*/);
+        var areaPromise = depend(sidePromise, makeArea);
         var printPromise = depend(areaPromise, printStuff);
 
-        fulfill(sidePromise, 5);
+        resolve(sidePromise, 5);
         var donePromise = depend(printPromise, beDone);
       });
     });
