@@ -10,50 +10,6 @@
 
     describe('a promises system with error handling and all methods static', function() {
 
-      it('makes a good division', function(done) {
-        var divisorPromise = promise();        
-        var division = depend(divisorPromise, divisionOf24);
-        var validation = depend(division, expected(12));
-        resolve(divisorPromise, 2);
-        var useless = depend(validation, execute(done));
-      });
-
-      xit('fails on an impossible division', function(done) {
-        var divisorPromise = promise();        
-        var division = depend(divisorPromise, divisionOf24);
-        //var validation = depend(division, 12); // HOW DOES THIS ONE BECOME?
-        resolve(divisorPromise, expected(0));
-        var useless = depend(validation, execute(done));
-      });
-
-      function divisionOf24(divisor) {
-        var result = promise();
-        try {
-        resolve(result, 24/divisor);
-        } catch (exc) {
-          reject(result, exc.message);
-        }
-        return result;
-      }
-
-      function expected(expected) {
-        return function(actual) {
-          expect(actual).to.be.eql(expected);
-          var result = promise();
-          resolve(result, actual);
-          return result;
-        }
-      }
-
-      function execute(callback) {
-        return function(_) {
-          console.log('test complete with result XXX');
-          var result = promise();
-          resolve(result, cb());
-          return result;
-        }
-      }
-
       it('builds a simple chain', function(done) {
 
         var sidePromise = promise();
@@ -80,6 +36,52 @@
 
         resolve(sidePromise, 5);
         var donePromise = depend(printPromise, beDone);
+      });
+
+      it('makes a good division', function(done) {
+        var divisorPromise = promise();        
+        var division = depend(divisorPromise, divisionOf(24));
+        var validation = depend(division, expected(12));
+        resolve(divisorPromise, 2);
+        var useless = depend(validation, execute(done));
+      });
+
+      function divisionOf(dividend) {
+        return function (divisor) {
+          var result = promise();
+          if (divisor !== 0) {
+            resolve(result, dividend/divisor);
+          } else {
+            reject(result, 'impossible division');
+          }
+          return result;
+        }
+      }
+
+      function expected(expected) {
+        return function(actual) {
+          expect(actual).to.be.eql(expected);
+          var result = promise();
+          resolve(result, actual);
+          return result;
+        }
+      }
+
+      function execute(callback) {
+        return function(_) {
+          console.log('test complete with result XXX');
+          var result = promise();
+          resolve(result, callback());
+          return result;
+        }
+      }
+
+      it('fails on an impossible division', function(done) {
+        var divisorPromise = promise();        
+        var division = depend(divisorPromise, divisionOf(24));
+        var validation = depend(division, expected(''));
+        resolve(divisorPromise, 0);
+        var useless = depend(validation, execute(done));
       });
     });
   });

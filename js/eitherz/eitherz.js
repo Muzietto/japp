@@ -47,9 +47,18 @@
             return makePromise(); // forget me not, you idiot...
           });
         },
-        onRejected: onRejectedFapb
+        onRejected: onRejectedFapb(result)
       });
       return result;
+    }
+
+    function onRejectedFapb(promise) {
+      return function(_) {
+        depend(fapbs.onRejected(promise.value), function (value) {
+          reject(result, value);
+          return makePromise(); // forget me not, you idiot...
+        });
+      }
     }
 
     // resolve(promise, value) -> ()
@@ -72,17 +81,12 @@
     // reject(promise, error) -> ()
     function reject(promise, error) {
       promise.value = error;
+      var dependencies = promise.dependencies;
       dependencies.forEach(function(continuation) {
         continuation.onRejected(value);
       });
       promise.dependencies = [];
       promise.state = 'rejected';
-    }
-    
-    function onRejectedFapb(error) {
-      var result = promise();
-      reject(result, error);
-      return result;
     }
   });
 })();
