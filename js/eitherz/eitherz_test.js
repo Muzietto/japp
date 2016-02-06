@@ -75,13 +75,19 @@
           return result;
         }
       }
+      
+      function failure(error) {
+        var result = promise();
+        reject(result, error);
+        return result;
+      }
 
       it('fails on an impossible division', function(done) {
         var divisorPromise = promise();        
-        var division = depend(divisorPromise, divisionOf(24));
-        var validation = depend(division, expected(''));
+        var division = depend(divisorPromise, divisionOf(24), failure);
+        var validation = depend(division, expected(''), failure);
         resolve(divisorPromise, 0);
-        var useless = depend(validation, execute(done));
+        var useless = depend(validation, execute(done), failure);
       });
     });
   });

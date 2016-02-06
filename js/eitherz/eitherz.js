@@ -24,41 +24,45 @@
     // of the expression, so new expressions 
     // can depend on that value.
 
-    // (promise a, fapb) -> promise b
-    function depend(promise, fapbs) { // fapbs :: (a -> promise b, a -> error)
-      if (typeof fapbs === 'function') {
-        fapbs = {
-          onResolved: fapbs,
-          onRejected: onRejectedFapb
-        };
-      }
+    // (promise a, a -> promise b, a -> error) -> promise b
+    function depend(promise, onResolved, onRejected) {
       // promise is most certainly unresolved, but let's guard...
       if (promise.state === 'resolved') {
-        return fapbs.onResolved(promise.value);
+        return onResolved(promise.value);
       }
       if (promise.state === 'rejected') {
-        return fapbs.onRejected(promise.value);
+        return onRejected(promise.value);
       }
       var result = makePromise();
       promise.dependencies.push({
         onResolved: function (_) {
-          depend(fapbs.onResolved(promise.value), function (value) {
-            resolve(result, value);
-            return makePromise(); // forget me not, you idiot...
-          });
+          depend(
+            onResolved(promise.value),
+            function (value) {
+              resolve(result, value);
+              return makePromise(); // forget me not, you idiot...
+            },
+            function (error) {
+              reject(result, error);
+              return makePromise(); // forget me not, you idiot...
+            }
+          );
         },
-        onRejected: onRejectedFapb(result)
+        onRejected: function (_) {
+          depend(
+            onRejected(promise.value),
+            function (value) {
+              resolve(result, value);
+              return makePromise(); // forget me not, you idiot...
+            },
+            function (error) {
+              reject(result, error);
+              return makePromise(); // forget me not, you idiot...
+            }
+          );
+        }
       });
       return result;
-    }
-
-    function onRejectedFapb(promise) {
-      return function(_) {
-        depend(fapbs.onRejected(promise.value), function (value) {
-          reject(result, value);
-          return makePromise(); // forget me not, you idiot...
-        });
-      }
     }
 
     // resolve(promise, value) -> ()
@@ -67,7 +71,7 @@
     // to be computed.
     function resolve(promise, value) {
       if (promise.state !== 'pending') {
-        throw new Error('already resolved!');
+        throw new Error('already resolved/rejected!');
       }
       promise.value = value;
       var dependencies = promise.dependencies;
@@ -80,10 +84,13 @@
 
     // reject(promise, error) -> ()
     function reject(promise, error) {
+      if (promise.state !== 'pending') {
+        throw new Error('already resolved/rejected!');
+      }
       promise.value = error;
       var dependencies = promise.dependencies;
       dependencies.forEach(function(continuation) {
-        continuation.onRejected(value);
+        continuation.onRejected(error);
       });
       promise.dependencies = [];
       promise.state = 'rejected';
