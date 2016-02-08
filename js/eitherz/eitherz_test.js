@@ -24,26 +24,29 @@
           resolve(result, console.log('promizzes2 test: ' + stuffVal));
           return result;
         }
-        var beDone = function(_) {
-          var result = promise();
-          resolve(result, done());
-          return result;
-        }
 
         // depend(promise, fapb_ok, fabp_ko) // fapb :: a -> promise b
-        var areaPromise = depend(sidePromise, makeArea);
-        var printPromise = depend(areaPromise, printStuff);
+        var areaPromise = depend(sidePromise, makeArea, failure);
+        var printPromise = depend(areaPromise, printStuff, failure);
 
         resolve(sidePromise, 5);
-        var donePromise = depend(printPromise, beDone);
+        var donePromise = depend(printPromise, executeOk(done), executeKo(done));
       });
 
       it('makes a good division', function(done) {
         var divisorPromise = promise();        
-        var division = depend(divisorPromise, divisionOf(24));
-        var validation = depend(division, expected(12));
+        var division = depend(divisorPromise, divisionOf(24), failure);
+        var validation = depend(division, expected(12), failure);
         resolve(divisorPromise, 2);
-        var useless = depend(validation, execute(done));
+        var donePromise = depend(validation, executeOk(done), executeKo(done));
+      });
+
+      it('fails on an impossible division', function(done) {
+        var divisorPromise = promise();        
+        var division = depend(divisorPromise, divisionOf(24), failure);
+        var validation = depend(division, expected(''), failure);
+        resolve(divisorPromise, 0);
+        var useless = depend(validation, executeOk(done), executeKo(done));
       });
 
       function divisionOf(dividend) {
@@ -52,7 +55,7 @@
           if (divisor !== 0) {
             resolve(result, dividend/divisor);
           } else {
-            reject(result, 'impossible division');
+            reject(result, new Error('impossible division'));
           }
           return result;
         }
@@ -67,9 +70,18 @@
         }
       }
 
-      function execute(callback) {
-        return function(_) {
-          console.log('test complete with result XXX');
+      function executeOk(callback) {
+        return function(value) {
+          console.log('test complete with result ' + value);
+          var result = promise();
+          resolve(result, callback());
+          return result;
+        }
+      }
+
+      function executeKo(callback) {
+        return function(value) {
+          console.log('test failed with result ' + value);
           var result = promise();
           resolve(result, callback());
           return result;
@@ -77,18 +89,11 @@
       }
       
       function failure(error) {
+        console.log('test failed with error ' + error);
         var result = promise();
         reject(result, error);
         return result;
       }
-
-      it('fails on an impossible division', function(done) {
-        var divisorPromise = promise();        
-        var division = depend(divisorPromise, divisionOf(24), failure);
-        var validation = depend(division, expected(''), failure);
-        resolve(divisorPromise, 0);
-        var useless = depend(validation, execute(done), failure);
-      });
     });
   });
 })();
