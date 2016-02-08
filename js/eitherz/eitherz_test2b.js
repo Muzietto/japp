@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  define(['eitherz', 'chai'], function(promizzes, chai) {
+  define(['eitherz2b', 'chai'], function(promizzes, chai) {
     var expect  = chai.expect;
     var promise = promizzes.promise;
     var resolve = promizzes.resolve;

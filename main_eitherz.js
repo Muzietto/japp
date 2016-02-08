@@ -3,8 +3,8 @@
   require.config({
     baseUrl: '',
     paths: {
-      'eitherz': 'js/eitherz/eitherz',
-      'test': 'js/eitherz/eitherz_test',
+      'eitherz2b': 'js/eitherz/eitherz2b',
+      'test2b': 'js/eitherz/eitherz_test2b',
       'mocha': 'mocha/mocha',
       'chai': 'mocha/chai',
       'utils': 'mocha/utils'
@@ -19,7 +19,7 @@
     }
   });
   define(['mocha'], function(mocha) {
-    require(['test'], function() {
+    require(['test2b'], function() {
       var runner = mocha.run();
     });
   })
