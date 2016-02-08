@@ -21,7 +21,7 @@
         var printStuff = function(stuffVal) {
           var result = promise();
           expect(stuffVal).to.be.equal(25);
-          resolve(result, console.log('promizzes2 test: ' + stuffVal));
+          resolve(result, console.log('promizzes2 test: ' + stuffVal) /* returns undefined */);
           return result;
         }
 
