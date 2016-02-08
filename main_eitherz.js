@@ -5,6 +5,8 @@
     paths: {
       'eitherz2b': 'js/eitherz/eitherz2b',
       'test2b': 'js/eitherz/eitherz_test2b',
+      'eitherz3': 'js/eitherz/eitherz3',
+      'test3': 'js/eitherz/eitherz_test3',
       'mocha': 'mocha/mocha',
       'chai': 'mocha/chai',
       'utils': 'mocha/utils'
@@ -19,7 +21,7 @@
     }
   });
   define(['mocha'], function(mocha) {
-    require(['test2b'], function() {
+    require(['test3', 'test2b'], function() {
       var runner = mocha.run();
     });
   })
