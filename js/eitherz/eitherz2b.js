@@ -43,15 +43,15 @@
         }
       });
       return result;
-      
+
       function succeed(value) {
         resolve(result, value);
-        return makePromise(); // forget me not, you idiot...
+        return makePromise();
       }
-      
+
       function fail(error) {
         reject(result, error);
-        return makePromise(); // forget me not, you idiot...
+        return makePromise();
       }
     }
 
