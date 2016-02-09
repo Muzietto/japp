@@ -1,10 +1,11 @@
 (function() {
 
-  define(['promizzes2', 'promizzes3'], function(promizzes, promizzes_i) {
+  define(['promizzes2', 'promizzes3', 'eitherz3'], function(promizzes, promizzes_i, eitherz_i) {
     var promise = promizzes.promise;
     var fulfill = promizzes.fulfill;
     var depend  = promizzes.depend;
     var promise_i = promizzes_i.promise;
+    var promise_ie = eitherz_i.promise;
 
     String.prototype.reverse = function(){
       return this.split('').reverse().join('');
@@ -15,7 +16,7 @@
       console.log('ajax call to ' + url);
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
+        if (xhttp.readyState === 4 && xhttp.status === 200) {
           fulfill(data, JSON.parse(xhttp.responseText));
         }
       };
@@ -32,8 +33,26 @@
       console.log('ajax_i call to ' + url);
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
+        if (xhttp.readyState === 4 && xhttp.status === 200) {
           data.resolve(JSON.parse(xhttp.responseText));
+        }
+      };
+      xhttp.open("GET", url, true);
+      xhttp.send();
+      return data;
+    }
+
+    function ajax_ie(url) { // instance-based version w/h error handling
+      var data = promise_ie();
+      console.log('ajax_ie call to ' + url);
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (xhttp.readyState === 4) {
+          if (xhttp.status === 200) {
+            data.resolve(JSON.parse(xhttp.responseText));
+          } else {
+            data.reject(xhttp.status + ' - ' + xhttp.statusText);
+          }
         }
       };
       xhttp.open("GET", url, true);
@@ -43,7 +62,8 @@
     
     return {
       ajax: ajax,
-      ajax_i: ajax_i
+      ajax_i: ajax_i,
+      ajax_ie: ajax_ie
     };
   });
 })();
