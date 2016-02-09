@@ -53,8 +53,8 @@
         }
         var result = makePromise();
         _dependencies.push({
-          onResolved: onResolved(_value).then(succeed, fail),
-          onReject: onRejected(_value).then(succeed, fail)
+          onResolved: function (_) { onResolved(_value).then(succeed, fail); },
+          onRejected: function (_) { onRejected(_value).then(succeed, fail); }
         });
         return result;
 
