@@ -12,5 +12,5 @@ Install an [http server](https://www.npmjs.com/package/http-server) and surf to 
 
 
 Surf then to `Eitherz_Mocha.html`
-- eitherz2b.js: all logic is outside promises and is handled by static methods `depend` & `fulfill`, heavily inspired to [what Robotlolita did]( http://robotlolita.me/2015/11/15/how-do-promises-work.html#handling-errors-with-promises)
+- eitherz2b.js: all logic is outside promises and is handled by static methods `depend`, `resolve` & `reject`, heavily inspired to [what Robotlolita did]( http://robotlolita.me/2015/11/15/how-do-promises-work.html#handling-errors-with-promises)
 - eitherz3.js: promises with `then` (aka `bind`) as instance method and error handling
