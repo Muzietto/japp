@@ -29,6 +29,7 @@
         });
         _dependencies = [];
         _state = 'resolved';
+        return this;
       }
 
       function reject(error) {
@@ -42,6 +43,7 @@
         });
         _dependencies = [];
         _state = 'rejected';
+        return this;
       }
 
       function then(onResolved, onRejected) {
@@ -53,8 +55,12 @@
         }
         var result = makePromise();
         _dependencies.push({
-          onResolved: function (_) { onResolved(_value).then(succeed, fail); },
-          onRejected: function (_) { onRejected(_value).then(succeed, fail); }
+          onResolved: function (_) {
+            onResolved(_value).then(succeed, fail);
+          },
+          onRejected: function (_) {
+            onRejected(_value).then(succeed, fail); 
+          }
         });
         return result;
 
