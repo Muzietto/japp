@@ -4,7 +4,8 @@
   define([], function() {
     
     return {
-      promise: makePromise
+      promise: makePromise,
+      ajax: ajax_ie
     };
     
     function makePromise() {
@@ -74,6 +75,24 @@
           return makePromise();
         }
       }
+    }
+
+    function ajax_ie(url) { // instance-based version w/h error handling
+      var data = makePromise();
+      console.log('ajax_ie call to ' + url);
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (xhttp.readyState === 4) {
+          if (xhttp.status === 200) {
+            data.resolve(JSON.parse(xhttp.responseText));
+          } else {
+            data.reject(xhttp.status + ' - ' + xhttp.statusText);
+          }
+        }
+      };
+      xhttp.open("GET", url, true);
+      xhttp.send();
+      return data;
     }
   });
 })();

@@ -1,11 +1,11 @@
 (function() {
   'use strict';
   
-  define(['eitherz3', 'chai', 'utils'], function(eitherz, chai, utils) {
+  define(['eitherz3', 'chai'], function(eitherz, chai) {
     var expect  = chai.expect;
     var promise = eitherz.promise;
-    var ajax = utils.ajax_ie;
-    
+    var ajax = eitherz.ajax;
+
     describe('instance-based promises with error handling', function() {
       
       it('do ajax straight away', function(done) {
