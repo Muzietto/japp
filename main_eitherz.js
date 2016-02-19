@@ -10,8 +10,7 @@
       'eitherz3': 'js/eitherz/eitherz3',
       'test3': 'js/eitherz/eitherz_test3',
       'mocha': 'mocha/mocha',
-      'chai': 'mocha/chai',
-      'utils': 'mocha/utils'
+      'chai': 'mocha/chai'
     },
     shim: {
       mocha: {
