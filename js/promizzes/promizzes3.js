@@ -3,6 +3,11 @@
 
   define([], function() {
 
+    return {
+      promise: makePromise,
+      ajax: ajax_i
+    };
+
     function makePromise() {
       var _resolved = false;
       var _value = undefined;
@@ -38,8 +43,18 @@
       };
     }
 
-    return {
-      promise: makePromise
-    };
+    function ajax_i(url) { // instance-based version
+      var data = makePromise();
+      console.log('ajax_i call to ' + url);
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (xhttp.readyState === 4 && xhttp.status === 200) {
+          data.resolve(JSON.parse(xhttp.responseText));
+        }
+      };
+      xhttp.open("GET", url, true);
+      xhttp.send();
+      return data;
+    }
   });
 })();

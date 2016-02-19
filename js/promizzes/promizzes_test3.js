@@ -1,10 +1,10 @@
 (function() {
   'use strict';
 
-  define(['promizzes3', 'chai', 'utils'], function(promizzes, chai, utils) {
+  define(['promizzes3', 'chai'], function(promizzes, chai) {
     var expect  = chai.expect;
     var promise = promizzes.promise;
-    var ajax = utils.ajax_i;
+    var ajax = promizzes.ajax;
 
     describe('a promises system based on instance methods', function() {
 

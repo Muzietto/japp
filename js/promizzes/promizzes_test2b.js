@@ -1,12 +1,12 @@
 (function() {
   'use strict';
 
-  define(['promizzes2b', 'chai', 'utils'], function(promizzes, chai, utils) {
+  define(['promizzes2b', 'chai'], function(promizzes, chai) {
     var expect  = chai.expect;
     var promise = promizzes.promise;
     var fulfill = promizzes.fulfill;
     var depend  = promizzes.depend;
-    var ajax = utils.ajax;
+    var ajax = promizzes.ajax;
 
     describe('a promises system identical to what Quildreen did', function() {
 

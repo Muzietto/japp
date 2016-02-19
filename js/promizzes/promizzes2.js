@@ -5,7 +5,8 @@
     return {
       promise: makePromise,
       fulfill: fulfill,
-      depend: depend
+      depend: depend,
+      ajax: ajax
     };
 
     function makePromise() {
@@ -55,6 +56,20 @@
       });
       promise.dependencies = [];
       promise.resolved = true;
+    }
+
+    function ajax(url) {
+      var data = makePromise();
+      console.log('ajax call to ' + url);
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (xhttp.readyState === 4 && xhttp.status === 200) {
+          fulfill(data, JSON.parse(xhttp.responseText));
+        }
+      };
+      xhttp.open("GET", url, true);
+      xhttp.send();
+      return data;
     }
   });
 })();

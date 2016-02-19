@@ -1,12 +1,12 @@
 (function() {
   'use strict';
 
-  define(['promizzes2', 'chai', 'utils'], function(promizzes, chai, utils) {
+  define(['promizzes2', 'chai'], function(promizzes, chai) {
     var expect  = chai.expect;
     var promise = promizzes.promise;
     var fulfill = promizzes.fulfill;
     var depend  = promizzes.depend;
-    var ajax = utils.ajax;
+    var ajax = promizzes.ajax;
 
     describe('a promises system with every logic inside static methods', function() {
 
