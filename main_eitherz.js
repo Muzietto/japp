@@ -3,8 +3,8 @@
   require.config({
     baseUrl: '',
     paths: {
-      'promizzes2': 'js/promizzes/promizzes2', // needed by utils
-      'promizzes3': 'js/promizzes/promizzes3', // needed by utils
+      'promizzes2': 'js/promizzes/promizzes2',
+      'promizzes3': 'js/promizzes/promizzes3',
       'eitherz2b': 'js/eitherz/eitherz2b',
       'test2b': 'js/eitherz/eitherz_test2b',
       'eitherz3': 'js/eitherz/eitherz3',
