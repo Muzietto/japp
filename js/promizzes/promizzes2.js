@@ -25,7 +25,7 @@
     // can depend on that value.
 
     // (promise a, fapb) -> promise b
-    function depend(promise, fapb) { // fapb :: a -> promise b
+    function dependXXX(promise, fapb) { // fapb :: a -> promise b
       // promise is most certainly unresolved, but let's guard...
       if (promise.resolved) {
         return fapb(promise.value);
@@ -39,6 +39,27 @@
       });
       return result;
     }
+    
+    function depend(promise, fapb) {
+      if (promise.resolved) {
+        return fapb(promise.value);
+      }
+      var result = makePromise();
+      result.dependencies.push(function(resValue) {
+        
+      });
+      return result;
+    }
+
+/*    
+    var sidePromise = promise();
+    var makeArea = function(sideVal) {
+      var result = promise();
+      fulfill(result, sideVal * sideVal);
+      return result;
+    }
+    var areaPromise = depend(sidePromise, makeArea);
+*/    
 
     // fulfill(promise, value) -> ()
     // puts a value in the promise, allowing the

@@ -60,6 +60,7 @@
       promise.whenResolved(function(resolvedValue) {
         // optional flatten -> UGLY!!!!!
         resolvedValue = (resolvedValue.value) ? resolvedValue.value() : resolvedValue;
+        // WRONG, WRONG; WRONG!! exp(resVal) is a promise, not a value!!!
         fulfill(resultPromise, expression(resolvedValue));
       });
       return resultPromise;
