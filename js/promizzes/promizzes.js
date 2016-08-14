@@ -27,7 +27,6 @@
           continuations.forEach(function(cont) {
             cont(val);
           });
-          _continuations = [];
           return;
         }
         throw new Error('already resolved');
@@ -58,10 +57,16 @@
       }
       var resultPromise = makePromise();
       promise.whenResolved(function(resolvedValue) {
-        // optional flatten -> UGLY!!!!!
-        resolvedValue = (resolvedValue.value) ? resolvedValue.value() : resolvedValue;
-        // WRONG, WRONG; WRONG!! exp(resVal) is a promise, not a value!!!
-        fulfill(resultPromise, expression(resolvedValue));
+        var nextPromise = expression(resolvedValue);
+        if (typeof nextPromise.value() !== 'undefined') {
+          fulfill(resultPromise, nextPromise.value());
+        } else {
+          nextPromise.whenResolved(function(nextValue) {
+            fulfill(resultPromise, nextValue);
+            return makePromise();
+          });
+        }
+        return nextPromise;
       });
       return resultPromise;
     }

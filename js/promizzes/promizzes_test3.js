@@ -6,7 +6,7 @@
     var promise = promizzes.promise;
     var ajax = promizzes.ajax;
 
-    describe('a promises system based on instance methods', function() {
+    describe('a promises system based on instance methods (promizzes3)', function() {
 
       it('does ajax straight away', function(done) {
         ajax('http://localhost:8080/json/user.json')
@@ -42,22 +42,28 @@
 
         var sidePromise = promise();
         var makeArea = function(sideVal) {
-          return promise().resolve(sideVal * sideVal);
+          var next = promise();
+          setTimeout(() => next.resolve(sideVal * sideVal), 800);
+          return next;
         }
         var printStuff = function(stuffVal) {
           expect(stuffVal).to.be.equal(25);
-          return promise().resolve(console.log('promizzes3 test: ' + stuffVal));
+          var next = promise();
+          setTimeout(() => next.resolve(console.log('promizzes3 test: ' + stuffVal)), 500);
+          return next;
         }
         var beDone = function(_) {
-          return promise().resolve(done());
+          var next = promise();
+          setTimeout(() => next.resolve(done()), 200);
+          return next;
         }
 
         var printPromise = sidePromise
           .then(makeArea)
           .then(printStuff);
+        printPromise.then(beDone);
 
         sidePromise.resolve(5);
-        printPromise.then(beDone);
       });
     });
   });

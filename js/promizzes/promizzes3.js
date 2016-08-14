@@ -32,14 +32,17 @@
             return fapb(_value);
           }
           var result = makePromise();
-          _dependencies.push(function(_) {
-            fapb(_value).then(function(value) {
-              result.resolve(value);
-              return makePromise() // forget me not, you idiot...
+          _dependencies.push(function(promiseValue) {
+            var nextPromise = fapb(promiseValue);
+            return nextPromise.then(function(nextValue) {
+              result.resolve(nextValue);
+              return makePromise();
             });
           });
           return result;
-        }
+        },
+        resolved: function() { return _resolved; },
+        value: function() { if (_resolved) { return _value; } else { throw new Error('unresolved promise'); } }
       };
     }
 

@@ -1,44 +1,38 @@
 (function() {
   'use strict';
 
-  define(['promizzes', 'chai'], function(promizzes, chai) {
+  define(['promizzes', 'chai'], function(P, chai) {
     var expect  = chai.expect;
-    var promise = promizzes.promise;
-    var fulfill = promizzes.fulfill;
-    var depend  = promizzes.depend;
 
-    describe('a naive, intuitive promises system', function() {
+    describe('a naive, intuitive promises system (promizzes.js)', function() {
       it('builds a simple chain', function(done) {
 
-        var sidePromise = promise();
+        var sidePromise = P.promise();
         var makeArea = function(sideVal) {
-          var result = promise();
-          fulfill(result, sideVal * sideVal);
+          var result = P.promise();
+          setTimeout(function() { P.fulfill(result, sideVal * sideVal); }, 400);
           return result;
         }
         var printStuff = function(stuffVal) {
-          var result = promise();
+          var result = P.promise();
           expect(stuffVal).to.be.equal(25);
-          fulfill(result, console.log('promizzes test: ' + stuffVal));
+          setTimeout(function() { 
+            console.log('promizzes test: ' + stuffVal);
+            P.fulfill(result, 'whatever'); }, 500);
           return result;
         }
         var beDone = function(_) {
-          var result = promise();
-          fulfill(result, done());
+          var result = P.promise();
+          P.fulfill(result, done());
           return result;
         }
 
         // depend(promise, expression) // famb
-        var areaPromise = depend(sidePromise, makeArea);
-        var printPromise = depend(areaPromise, printStuff);
+        var areaPromise = P.depend(sidePromise, makeArea);
+        var printPromise = P.depend(areaPromise, printStuff);
 
-        // side
-        //  .then(makeArea)
-        //  .then(printStuff)
-        //  .then(beDone);
-
-        fulfill(sidePromise, 5);
-        var donePromise = depend(printPromise, beDone);
+        P.depend(printPromise, beDone);
+        P.fulfill(sidePromise, 5);
       });
     });
   });

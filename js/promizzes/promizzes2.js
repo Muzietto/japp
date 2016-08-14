@@ -25,28 +25,17 @@
     // can depend on that value.
 
     // (promise a, fapb) -> promise b
-    function dependXXX(promise, fapb) { // fapb :: a -> promise b
+    function depend(promise, fapb) { // fapb :: a -> promise b
       // promise is most certainly unresolved, but let's guard...
       if (promise.resolved) {
         return fapb(promise.value);
       }
       var result = makePromise();
       promise.dependencies.push(function (_) {
-        depend(fapb(promise.value), function (value) {
+        return depend(fapb(promise.value), function (value) {
           fulfill(result, value);
           return makePromise(); // forget me not, you idiot...
         });
-      });
-      return result;
-    }
-    
-    function depend(promise, fapb) {
-      if (promise.resolved) {
-        return fapb(promise.value);
-      }
-      var result = makePromise();
-      result.dependencies.push(function(resValue) {
-        
       });
       return result;
     }
@@ -69,10 +58,8 @@
       if (promise.resolved) {
         throw new Error('already resolved!');
       }
-      // TODO - try-catch all this and handle errors
       promise.value = value;
-      var dependencies = promise.dependencies;
-      dependencies.forEach(function(continuation) {
+      promise.dependencies.forEach(function(continuation) {
         continuation(value);
       });
       promise.dependencies = [];

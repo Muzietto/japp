@@ -25,7 +25,7 @@
     }
   });
   define(['mocha'], function(mocha) {
-    require(['test2', 'test3', 'test', 'test2b'], function() {
+    require(['test', 'test2', 'test2b', 'test3'], function() {
       var runner = mocha.run();
     });
   })

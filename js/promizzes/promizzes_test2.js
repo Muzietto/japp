@@ -8,7 +8,7 @@
     var depend  = promizzes.depend;
     var ajax = promizzes.ajax;
 
-    describe('a promises system with every logic inside static methods', function() {
+    describe('a promises system with every logic inside static methods (promizzes2)', function() {
 
       it('does ajax straight away', function(done) {
         var data = ajax('http://localhost:8080/json/user.json');
@@ -49,18 +49,18 @@
         var sidePromise = promise();
         var makeArea = function(sideVal) {
           var result = promise();
-          fulfill(result, sideVal * sideVal);
+          setTimeout(function() { fulfill(result, sideVal * sideVal); }, 200);
           return result;
         }
         var printStuff = function(stuffVal) {
           var result = promise();
           expect(stuffVal).to.be.equal(25);
-          fulfill(result, console.log('promizzes2 test: ' + stuffVal));
+          setTimeout(function() { fulfill(result, console.log('promizzes2 test: ' + stuffVal)); }, 400);
           return result;
         }
         var beDone = function(_) {
           var result = promise();
-          fulfill(result, done());
+          setTimeout(function() { fulfill(result, done()); }, 400);
           return result;
         }
 

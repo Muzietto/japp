@@ -29,7 +29,8 @@
     // (promise a, fapb) -> promise b
     function depend(promise, fapb) { // fapb :: a -> promise b
       var result = makePromise();
-      // next guard is different from mine...
+      // next guard is different from mine (see promizzes2.js),
+      // and it's unnecessarily complicated...
       if (promise.resolved) {
         depend(fapb(promise.value), function (value) {
           fulfill(result, value);
@@ -56,8 +57,7 @@
       }
       // TODO - try-catch all this and handle errors
       promise.value = value;
-      var dependencies = promise.dependencies;
-      dependencies.forEach(function(continuation) {
+      promise.dependencies.forEach(function(continuation) {
         continuation(value);
       });
       promise.dependencies = [];
