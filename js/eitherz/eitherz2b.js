@@ -36,10 +36,10 @@
       var result = makePromise();
       promise.dependencies.push({
         onResolved: function (_) {
-          depend(onResolved(promise.value), succeed, fail);
+          return depend(onResolved(promise.value), succeed, fail);
         },
         onRejected: function (_) {
-          depend(onRejected(promise.value), succeed, fail);
+          return depend(onRejected(promise.value), succeed, fail);
         }
       });
       return result;
