@@ -7,7 +7,6 @@
       'promizzes2': 'js/promizzes/promizzes2',
       'promizzes2b': 'js/promizzes/promizzes2b',
       'promizzes3': 'js/promizzes/promizzes3',
-      'eitherz3': 'js/eitherz/eitherz3',
       'test': 'js/promizzes/promizzes_test',
       'test2': 'js/promizzes/promizzes_test2',
       'test2b': 'js/promizzes/promizzes_test2b',
@@ -29,5 +28,4 @@
       var runner = mocha.run();
     });
   })
-  
 })();
