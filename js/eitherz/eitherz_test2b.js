@@ -8,7 +8,7 @@
     var reject = promizzes.reject;
     var depend  = promizzes.depend;
 
-    describe('a promises system with error handling and all methods static', function() {
+    describe('a promises system based on either exactly the way Robotlolita did (eitherz2b.js)', function() {
 
       it('builds a simple chain', function(done) {
 
