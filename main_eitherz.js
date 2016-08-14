@@ -3,12 +3,12 @@
   require.config({
     baseUrl: '',
     paths: {
-      'promizzes2': 'js/promizzes/promizzes2',
-      'promizzes3': 'js/promizzes/promizzes3',
+      'eitherz2': 'js/eitherz/eitherz2',
       'eitherz2b': 'js/eitherz/eitherz2b',
-      'test2b': 'js/eitherz/eitherz_test2b',
       'eitherz3': 'js/eitherz/eitherz3',
-      'test3': 'js/eitherz/eitherz_test3',
+      'test2e': 'js/eitherz/eitherz_test2',
+      'test2be': 'js/eitherz/eitherz_test2b',
+      'test3e': 'js/eitherz/eitherz_test3',
       'mocha': 'mocha/mocha',
       'chai': 'mocha/chai'
     },
@@ -22,9 +22,8 @@
     }
   });
   define(['mocha'], function(mocha) {
-    require(['test3', 'test2b'], function() {
+    require(['test3e', 'test2be', 'test2e'], function() {
       var runner = mocha.run();
     });
   })
-  
 })();
