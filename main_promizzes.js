@@ -17,7 +17,10 @@
     shim: {
       mocha: {
         init: function() {
-          this.mocha.setup('bdd');
+          this.mocha.setup({
+            ui: 'bdd',
+            timeout: 20000,
+          });
           return this.mocha;
         }
       }
@@ -25,7 +28,6 @@
   });
   define(['mocha'], function(mocha) {
     require(['test', 'test2', 'test2b', 'test3'], function() {
-      mocha.setup({ timeout: 20000 });
       var runner = mocha.run();
     });
   })
