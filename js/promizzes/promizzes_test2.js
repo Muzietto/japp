@@ -9,9 +9,9 @@
     var ajax = promizzes.ajax;
 
     describe('a promises system with every logic inside static methods (promizzes2)', function() {
-      this.timeout(5000);
 
       it('does ajax straight away', function(done) {
+        this.timeout(5000);
         var data = ajax('http://localhost:8080/json/user.json');
         var expectation = depend(data, expected({"name":"Marco","age":53,"town":"milano"}));
         depend(expectation, execute(done));
