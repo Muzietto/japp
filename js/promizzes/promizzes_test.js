@@ -5,6 +5,8 @@
     var expect  = chai.expect;
 
     describe('a naive, intuitive promises system (promizzes.js)', function() {
+      this.timeout(5000);
+      
       it('builds a simple chain', function(done) {
 
         var sidePromise = P.promise();
