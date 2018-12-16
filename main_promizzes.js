@@ -19,7 +19,7 @@
         init: function() {
           this.mocha.setup({
             ui: 'bdd',
-            timeout: 20000,
+            timeout: 5000,
           });
           return this.mocha;
         }
