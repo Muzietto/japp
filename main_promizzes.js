@@ -25,6 +25,7 @@
   });
   define(['mocha'], function(mocha) {
     require(['test', 'test2', 'test2b', 'test3'], function() {
+      mocha.setup({ timeout: 20000 });
       var runner = mocha.run();
     });
   })
