@@ -20,7 +20,7 @@
         var data1 = ajax('http://muzietto.github.io/japp/json/user.json');
         var expectation1 = depend(data1, expected({"name":"Marco","age":53,"town":"milano"}));
         var data2 = depend(expectation1, function(data) { // NB: same as expectation1.value !!!
-          return ajax('http://localhost:8080/json/' + data.town + '.json');
+          return ajax('http://muzietto.github.io/japp/json/' + data.town + '.json');
         });
         var expectation2 = depend(data2, expected({"name":"Milano","population":1500000}));
         depend(expectation2, execute(done));
