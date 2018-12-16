@@ -9,6 +9,7 @@
     var ajax = promizzes.ajax;
 
     describe('a promises system with every logic inside static methods (promizzes2)', function() {
+      this.timeout(5000);
 
       it('does ajax straight away', function(done) {
         var data = ajax('http://localhost:8080/json/user.json');
