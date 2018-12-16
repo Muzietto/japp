@@ -11,12 +11,14 @@
     describe('a promises system with every logic inside static methods (promizzes2)', function() {
 
       it('does ajax straight away', function(done) {
+
         var data = ajax('http://muzietto.github.io/japp/json/user.json');
         var expectation = depend(data, expected({"name":"Marco","age":53,"town":"milano"}));
         depend(expectation, execute(done));
       });
 
       it('does chained ajax', function(done) {
+
         var data1 = ajax('http://muzietto.github.io/japp/json/user.json');
         var expectation1 = depend(data1, expected({"name":"Marco","age":53,"town":"milano"}));
         var data2 = depend(expectation1, function(data) { // NB: same as expectation1.value !!!
