@@ -17,10 +17,7 @@
     shim: {
       mocha: {
         init: function() {
-          this.mocha.setup({
-            ui: 'bdd',
-            timeout: 5000,
-          });
+          this.mocha.setup('bdd');
           return this.mocha;
         }
       }
