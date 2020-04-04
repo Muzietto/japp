@@ -1,0 +1,39 @@
+const Option = daggy.taggedSum('Option', {
+  Some: ['x'],
+  None: [],
+})
+const a = Option.Some(1) // { x: 1 }
+a.toString() // 'Option.Some(1)'
+Option.Some.is(a) // true
+Option.is(a) // true
+Option.None.is(Option.None) // true
+Option.is(Option.None) // true
+Option.None.toString() // 'Option.None'
+Option.Some.toString() // 'Option.Some'
+Option.prototype.map = function (f) {
+  return this.cata({
+    Some: (x) => Option.Some(f(x)),
+    None: () => this,
+  })
+}
+const b = a.map(x => x+1) // { x: 2 }
+b.toString() // 'Option.Some(2)'
+const c = Option.Some.from({x: 1}) // { x: 1 }
+
+
+data Lens s a = Lens
+  { getter :: s -> a
+  , setter :: a -> s -> s }
+
+
+setIth :: Int -> a -> [a] -> [a]
+setIth index new list
+  | index < 0        = error "setIth: negative index"
+  | null list        = error "setIth: index too large"
+  | old:rest <- list = if index == 0
+                         then new : rest
+                         else old : setIth (index-1) new rest
+
+ix :: Int -> Lens [a] a
+ix i = Lens { getter = (!! i)
+            , setter = setIth i }
