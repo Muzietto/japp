@@ -4,6 +4,9 @@
 
 Just Another Promises Playground. Just Another Lenses Playground.
 
+Here are [the lenses' tests](https://muzietto.github.io/japp-jalp/Lenses_Mocha.html):
+- lense.js: following along the lines of https://artyom.me/lens-over-tea-1
+
 Here are [the promises' tests](https://muzietto.github.io/japp-jalp/Promizzes_Mocha.html):
 - promizzes.js: first naive attempt; promise contains logic to handle value and dependencies
 - promizzes2.js: all logic is outside promises and is handled by static methods `depend` & `fulfill`
