@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  define(['eitherz3', 'chai'], function(eitherz, chai) {
+  define(['eitherz3', 'chai', 'safeValue'], function(eitherz, chai, safeValue) {
     var expect  = chai.expect;
     var promise = eitherz.promise;
     var ajax = eitherz.ajax;
@@ -9,7 +9,7 @@
     describe('instance-based eithers with error handling (eitherz3.js)', function() {
 
       it('do ajax straight away', function(done) {
-        ajax('https://muzietto.github.io/japp-jalp/json/user.json')
+        safeValue(ajax)('/json/user.json')
           .then(
             expected({"name":"Marco","age":53,"town":"milano"}),
             notExpected({"name":"Marco","age":53,"town":"milano"})
@@ -17,7 +17,7 @@
           .then(executeOk(done), executeKo(done));
       });
       it('do ajax handling errors', function(done) {
-        ajax('https://muzietto.github.io/japp-jalp/json/userXXX.json')
+        safeValue(ajax)('/json/userXXX.json')
           .then(
             expected({"name":"Marco","age":53,"town":"milano"}),
             notExpected({"name":"Marco","age":53,"town":"milano"})

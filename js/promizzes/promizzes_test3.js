@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  define(['promizzes3', 'chai'], function(promizzes, chai) {
+  define(['promizzes3', 'chai', 'safeValue'], function(promizzes, chai, safeValue) {
     var expect  = chai.expect;
     var promise = promizzes.promise;
     var ajax = promizzes.ajax;
@@ -9,16 +9,16 @@
     describe('a promises system based on instance methods (promizzes3)', function() {
 
       it('does ajax straight away', function(done) {
-        ajax('https://muzietto.github.io/japp-jalp/json/user.json')
+        safeValue(ajax)('/json/user.json')
           .then(expected({"name":"Marco","age":53,"town":"milano"}))
           .then(execute(done));
       });
 
       it('does chained ajax', function(done) {
-        ajax('https://muzietto.github.io/japp-jalp/json/user.json')
+        safeValue(ajax)('/json/user.json')
           .then(expected({"name":"Marco","age":53,"town":"milano"}))
           .then(function(data) {
-            return ajax('https://muzietto.github.io/japp-jalp/json/' + data.town + '.json');
+            return safeValue(ajax)('/json/' + data.town + '.json')
           })
           .then(expected({"name":"Milano","population":1500000}))
           .then(execute(done));
@@ -31,7 +31,7 @@
           return promise().resolve(actual);
         };
       }
-      
+
       function execute(cb) {
         return function executor(_) {
           return promise().resolve(cb());

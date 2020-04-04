@@ -1,5 +1,5 @@
 (function() {
-  
+
   require.config({
     baseUrl: '',
     paths: {
@@ -9,6 +9,7 @@
       'test2e': 'js/eitherz/eitherz_test2',
       'test2be': 'js/eitherz/eitherz_test2b',
       'test3e': 'js/eitherz/eitherz_test3',
+      'safeValue': 'js/utils/safeValue',
       'mocha': 'mocha/mocha',
       'chai': 'mocha/chai'
     },

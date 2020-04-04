@@ -1,5 +1,5 @@
 (function() {
-  
+
   require.config({
     baseUrl: '',
     paths: {
@@ -11,6 +11,7 @@
       'test2': 'js/promizzes/promizzes_test2',
       'test2b': 'js/promizzes/promizzes_test2b',
       'test3': 'js/promizzes/promizzes_test3',
+      'safeValue': 'js/utils/safeValue',
       'mocha': 'mocha/mocha',
       'chai': 'mocha/chai'
     },
