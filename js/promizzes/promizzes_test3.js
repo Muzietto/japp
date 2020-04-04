@@ -9,16 +9,16 @@
     describe('a promises system based on instance methods (promizzes3)', function() {
 
       it('does ajax straight away', function(done) {
-        ajax('https://muzietto.github.io/japp/json/user.json')
+        ajax('https://muzietto.github.io/japp-jalp/json/user.json')
           .then(expected({"name":"Marco","age":53,"town":"milano"}))
           .then(execute(done));
       });
 
       it('does chained ajax', function(done) {
-        ajax('https://muzietto.github.io/japp/json/user.json')
+        ajax('https://muzietto.github.io/japp-jalp/json/user.json')
           .then(expected({"name":"Marco","age":53,"town":"milano"}))
           .then(function(data) {
-            return ajax('https://muzietto.github.io/japp/json/' + data.town + '.json');
+            return ajax('https://muzietto.github.io/japp-jalp/json/' + data.town + '.json');
           })
           .then(expected({"name":"Milano","population":1500000}))
           .then(execute(done));

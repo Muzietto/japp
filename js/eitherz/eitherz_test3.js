@@ -7,9 +7,9 @@
     var ajax = eitherz.ajax;
 
     describe('instance-based eithers with error handling (eitherz3.js)', function() {
-      
+
       it('do ajax straight away', function(done) {
-        ajax('https://muzietto.github.io/japp/json/user.json')
+        ajax('https://muzietto.github.io/japp-jalp/json/user.json')
           .then(
             expected({"name":"Marco","age":53,"town":"milano"}),
             notExpected({"name":"Marco","age":53,"town":"milano"})
@@ -17,7 +17,7 @@
           .then(executeOk(done), executeKo(done));
       });
       it('do ajax handling errors', function(done) {
-        ajax('https://muzietto.github.io/japp/json/userXXX.json')
+        ajax('https://muzietto.github.io/japp-jalp/json/userXXX.json')
           .then(
             expected({"name":"Marco","age":53,"town":"milano"}),
             notExpected({"name":"Marco","age":53,"town":"milano"})
